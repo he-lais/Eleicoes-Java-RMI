@@ -1,29 +1,17 @@
-# RMI-based-Election-process
-Remote method Invocation based program that simulates an Election process. Here Hello is the remote interface. The program basically follow these steps.
+Este trabalho é baseado numa proposta do livro do Coulouris, Dollimore, Kinberg, Blair (2013), pag. 227.
 
-1. The register voter methods should take as parameters a name, and assign a voter ID from a list of
-valid voter IDs (Each of you decides the criteria of a valid voter ID, it needs to be a format
-that your system
-generates and accepts, be innovative here).
-2. The verify voter method takes a voter ID as input and verifies if the voter with the voter ID is
-registered
-and under what name? However it should not allow the voter to vote if they have voted before.
-3. The vote method should allow a voter to cast a single vote for a single candidate.
-4. The tally results, should return the votes each of the candidates received to be displayed by the
-client.
-5. Announce winner should just return the election winner's name.
+Considere uma interface Election que fornece dois métodos remotos:
 
-A client/server RMI application that takes handles this system, 
-This program should start by loading a file with candidate names (Supply as input any text file contains names), it should handle
-up to 10 candidates (you can use more than 10 candidates you want to). Then this program should generate valid voter IDs (define your own criteria for what a valid voter ID is). They system should allow for up to 1000 voters.
+vote: este método possui dois parâmetros por meio dos quais o cliente fornece o nome de um candidato (um string) e o “identificador de eleitor”.
+(um hash MD5 usado para garantir que cada usuário vote apenas uma vez).
 
+Os identificadores de eleitor devem ser gerados a partir de uma função MD5 do nome completo do eleitor.
+result: este método possui dois parâmetros com os quais o servidor fornece para o cliente o nome de um candidato e o número de votos desse candidato.
 
-Then once the system starts, a menu should be displayed to ask the user to either input one of the5 choices listed above or 0 to quit.
+Desenvolva um sistema para o serviço Election utilizando o Java RMI, que garanta que seus registros permaneçam consistentes quando ele é acessado simultaneamente
+por vários clientes.
 
-1. Register to Vote
-2. Verify Voter
-3. Vote
-4. Tally Results
-5. Announce Winner
-0. Quit
-Please Enter your Choice:
+O serviço Election deve garantir que todos os votos sejam armazenados com segurança, mesmo quando o processo servidor falha. 
+
+Considerando que o Java RMI possui semântica at-most-once, implemente um mecanismo de recuperação de falha no cliente que consiga obter uma semântica 
+exactly-once para o caso do serviço ser interrompido por um tempo inferior a 30 segundos.
